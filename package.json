@@ -4,11 +4,12 @@
   "description": "TownToday backend",
   "main": "index.js",
   "scripts": {
-    "test": "nodemon --exec 'mocha --recursive -R min'"
+    "test": "NODE_ENV=test nodemon --exec 'mocha --recursive -R min'"
   },
   "author": "TownToday",
   "license": "ISC",
   "dependencies": {
+    "body-parser": "^1.18.3",
     "express": "^4.16.3",
     "mocha": "^5.2.0",
     "mongoose": "^5.3.2",
