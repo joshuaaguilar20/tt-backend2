@@ -112,7 +112,7 @@ describe('Users controller', () => {
         const sacramentoUser = new User({
             username: 'sacuser',
             password: 'pass123',
-            email: 'homers@fox.com',
+            email: 'sac@sac.com',
             firstname: 'Homer',
             lastname: 'Simpson',
             dob: '11/21/1940',
@@ -122,7 +122,7 @@ describe('Users controller', () => {
         const losAngelesUser = new User({
             username: 'lauser',
             password: 'pass123',
-            email: 'homers@fox.com',
+            email: 'la@la.com',
             firstname: 'Homer',
             lastname: 'Simpson',
             dob: '11/21/1940',
@@ -132,7 +132,7 @@ describe('Users controller', () => {
         const newYorkUser = new User({
             username: 'nyuser',
             password: 'pass123',
-            email: 'homers@fox.com',
+            email: 'ny@ny.com',
             firstname: 'Homer',
             lastname: 'Simpson',
             dob: '11/21/1940',
@@ -147,8 +147,9 @@ describe('Users controller', () => {
                     .get(`/api/users/${sacramentoUser._id}/nearby?lng=-121.5&lat=38.6`)
                     .end((err, response) => {
                         console.log(response);
-                        // TODO: Writer assertion
-                        // Note: The test passes based on log data
+                        assert(response.body.length === 2);
+                        assert(response.body[0].username === 'sacuser');
+                        assert(response.body[1].email === 'la@la.com');
                         done();
                     });
             });
