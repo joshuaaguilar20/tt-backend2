@@ -13,7 +13,13 @@ if (process.env.NODE_ENV !== 'test') {
 }
 
 app.use(bodyParser.json());
+
+// app.use('/graphql', expressGraphQL({
+//     graphiql: true
+// }));
+
 routes(app);
+// routes(app, expressGraphQL);
 
 // Error-handling middleware
 app.use((err, req, res, next) => {
