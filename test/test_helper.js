@@ -14,6 +14,8 @@ before(done => {
 beforeEach(done => {
     const { users } = mongoose.connection.collections;
     users.drop()
+        // ensure indices exist for geometry data
+        .then(() => users.ensureIndex({'geometry.coordinates': '2dsphere'}))
         .then(() => done())
         .catch(() => done()); // Needed for the first time this file is executed
 });

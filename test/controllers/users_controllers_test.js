@@ -104,4 +104,53 @@ describe('Users controller', () => {
                     });
             });
     });
+
+    it('GET to /api/users/id/nearby returns events near the user', done => {
+        // NOTE: For now, let's create different users to perform this test
+        // TODO: Refactor test to find events, not other users
+
+        const sacramentoUser = new User({
+            username: 'sacuser',
+            password: 'pass123',
+            email: 'homers@fox.com',
+            firstname: 'Homer',
+            lastname: 'Simpson',
+            dob: '11/21/1940',
+            geometry: { type: 'Point', coordinates: [-121.538941, 38.607319] }
+        });
+
+        const losAngelesUser = new User({
+            username: 'lauser',
+            password: 'pass123',
+            email: 'homers@fox.com',
+            firstname: 'Homer',
+            lastname: 'Simpson',
+            dob: '11/21/1940',
+            geometry: { type: 'Point', coordinates: [-118.486164, 34.002769] }
+        });
+
+        const newYorkUser = new User({
+            username: 'nyuser',
+            password: 'pass123',
+            email: 'homers@fox.com',
+            firstname: 'Homer',
+            lastname: 'Simpson',
+            dob: '11/21/1940',
+            geometry: { type: 'Point', coordinates: [-73.986139, 40.765058] }
+        });
+
+        Promise.all([sacramentoUser.save(), losAngelesUser.save(), newYorkUser.save()])
+            .then(() => {
+                request(app)
+                    // Could extract the points from sacramentoUser, but that would
+                    // be too messy
+                    .get(`/api/users/${sacramentoUser._id}/nearby?lng=-121.5&lat=38.6`)
+                    .end((err, response) => {
+                        console.log(response);
+                        // TODO: Writer assertion
+                        // Note: The test passes based on log data
+                        done();
+                    });
+            });
+    });
 });
