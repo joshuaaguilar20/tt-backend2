@@ -1,5 +1,6 @@
 const graphql = require('graphql');
 // const _ = require('lodash');
+const axios = require('axios');
 
 const {
     GraphQLObjectType,
@@ -8,23 +9,23 @@ const {
 } = graphql;
 
 // TEMP
-const users = [
-    {   
-        username: 'homers',
-        firstname: 'Homer',
-        lastname: ''
-    },
-    {   
-        username: 'albundy',
-        firstname: 'Al',
-        lastname: 'Bundy'
-    },
-    {   
-        username: 'spongebob',
-        firstname: 'SpongeBob',
-        lastname: 'SquarePants'
-    }
-];
+// const users = [
+//     {   
+//         username: 'homers',
+//         firstname: 'Homer',
+//         lastname: ''
+//     },
+//     {   
+//         username: 'albundy',
+//         firstname: 'Al',
+//         lastname: 'Bundy'
+//     },
+//     {   
+//         username: 'spongebob',
+//         firstname: 'SpongeBob',
+//         lastname: 'SquarePants'
+//     }
+// ];
 
 // TODO: Add field for geometry
 const UserType = new GraphQLObjectType({
@@ -55,7 +56,14 @@ const RootQuery = new GraphQLObjectType({
                 }
             },
             resolve(parentValue, args) {
-                return users.filter(user => user.username === args.username)[0];
+                // return users.filter(user => user.username === args.username)[0];
+                console.log("USERNAME (userSchema): ", args.username);
+
+                return axios.get(`http://localhost:3050/api/users/${args.username}`)
+                    .then(resp => {
+                        console.log("resp.data: ", resp.data);
+                        return(resp.data);
+                    }); // Axios wraps the body in a data object
             }
         }
     }

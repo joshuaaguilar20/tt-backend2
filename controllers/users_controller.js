@@ -5,10 +5,20 @@ const maxDistance = 1609000; // in meters, approximately 1000 miles
 
 module.exports = {
     get(req, res, next) {
-        const userId = req.params.id;
+        // const userId = req.params.id;
 
-        User.findById({ _id: userId })
-            .then(user => res.status(200).send(user))
+        // User.findById({ _id: userId })
+        //     .then(user => res.status(200).send(user))
+        //     .catch(next);
+
+        const username = req.params.username;
+        console.log("USERNAME (users_controller): ", username);
+
+        User.findOne({ username })
+            .then(user => {
+                console.log("USER (users_controllers): ", user);
+                res.status(200).send(user)
+            })
             .catch(next);
     },
 

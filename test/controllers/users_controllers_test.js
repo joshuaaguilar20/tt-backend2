@@ -19,18 +19,31 @@ describe('Users controller', () => {
             dob: '11/21/1940'
         });
 
+        // user.save()
+        //     .then(() => {
+        //         request(app)
+        //             .get(`/api/users/${user._id}`)
+        //             .end(() => {
+        //                 User.findById({ _id: user._id })
+        //                     .then(user => {
+        //                         assert(user.username === 'homersimpson');
+        //                         done();
+        //                     });
+        //             });
+        //     });
+
         user.save()
-            .then(() => {
-                request(app)
-                    .get(`/api/users/${user._id}`)
-                    .end(() => {
-                        User.findById({ _id: user._id })
-                            .then(user => {
-                                assert(user.username === 'homersimpson');
-                                done();
-                            });
-                    });
-            });
+        .then(() => {
+            request(app)
+                .get(`/api/users/${user.username}`)
+                .end(() => {
+                    User.findOne({ username: user.username })
+                        .then(user => {
+                            assert(user.username === 'homersimpson');
+                            done();
+                        });
+                });
+        });
     });
 
     it('POST to /api/users creates a new user', done => {
