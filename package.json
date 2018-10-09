@@ -4,7 +4,8 @@
   "description": "TownToday backend",
   "main": "index.js",
   "scripts": {
-    "test": "NODE_ENV=test nodemon --exec 'mocha --recursive -R min'"
+    "test": "NODE_ENV=test nodemon --exec 'mocha --recursive -R min'",
+    "test_dev": "nodemon index.js"
   },
   "author": "TownToday",
   "license": "ISC",

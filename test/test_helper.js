@@ -16,4 +16,4 @@ beforeEach(done => {
     users.drop()
         .then(() => done())
         .catch(() => done()); // Needed for the first time this file is executed
-})
+});
