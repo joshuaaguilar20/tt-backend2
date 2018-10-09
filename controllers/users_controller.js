@@ -1,6 +1,14 @@
 const User = require('../models/user');
 
 module.exports = {
+    get(req, res, next) {
+        const userId = req.params.id;
+
+        User.findById({_id: userId})
+            .then(user => res.status(200).send(user))
+            .catch(next);
+    },
+
     create(req, res, next) {
         const userProps = req.body;
 
@@ -25,5 +33,9 @@ module.exports = {
         User.findByIdAndRemove({_id: userId})
             .then(user => res.status(204).send(user))
             .catch(next);
-    }
+    },
+
+    // nearby(req, res, next) {
+
+    // }
 };

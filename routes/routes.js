@@ -8,4 +8,8 @@ module.exports = (app) => {
     app.put('/api/users/:id', UsersController.edit);
 
     app.delete('/api/users/:id', UsersController.delete);
+    app.get('/api/users/:id', UsersController.get);
+
+    // get locations near the user
+    // app.get('/api/users/:id/nearby', UsersController.nearby);
 };

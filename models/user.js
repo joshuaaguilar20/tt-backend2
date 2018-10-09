@@ -1,6 +1,19 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
+// Schema for user's location as a point on a map
+const PointSchema = new Schema({
+    type: {
+        type: String,
+        default: 'Point'
+    },
+    coordinates: {
+        type: [Number],
+        index: '2dsphere'
+    }
+});
+
+
 const UserSchema = new Schema({
     username: {
         type: String,
@@ -25,7 +38,8 @@ const UserSchema = new Schema({
     dob: {
         type: String,
         required: true
-    }
+    },
+    geometry: PointSchema
 });
 
 const User = mongoose.model('user', UserSchema);
