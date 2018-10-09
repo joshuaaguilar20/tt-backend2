@@ -7,7 +7,7 @@ const app = require('../../app');
 const User = mongoose.model('user');
 
 describe('Users controller', () => {
-    it('POST to api/users creates a new user', (done) => {
+    it('POST to /api/users creates a new user', done => {
         User.count().then(count => {
             request(app)
                 .post('/api/users')
@@ -26,5 +26,56 @@ describe('Users controller', () => {
                     });
                 });
         });
+    });
+
+    it('PUT to /api/users/id edits an existing user', done => {
+        // Create a user, edit it, and pull it back out of the DB
+        const user = new User({
+            username: 'homersimpson',
+            password: 'pass123',
+            email: 'homers@fox.com',
+            firstname: 'Homer',
+            lastname: 'Simpson',
+            dob: '11/21/1940'
+        });
+
+        user.save()
+            .then(() => {
+                request(app)
+                    .put(`/api/users/${user._id}`)
+                    .send({firstname: 'Bart'})
+                    .end(() => {
+                        User.findById(user._id)
+                            .then(user => {
+                                assert(user.firstname === 'Bart');
+                                done();
+                            });
+                    });
+            });
+    });
+
+    it('DELETE to /api/users/id removes an existing user', done => {
+        // Create a user, edit it, and pull it back out of the DB
+        const user = new User({
+            username: 'homersimpson',
+            password: 'pass123',
+            email: 'homers@fox.com',
+            firstname: 'Homer',
+            lastname: 'Simpson',
+            dob: '11/21/1940'
+        });
+
+        user.save()
+            .then(() => {
+                request(app)
+                    .delete(`/api/users/${user._id}`)
+                    .end(() => {
+                        User.findById(user._id)
+                            .then(user => {
+                                assert(!user);
+                                done();
+                            });
+                    });
+            });
     });
 });
